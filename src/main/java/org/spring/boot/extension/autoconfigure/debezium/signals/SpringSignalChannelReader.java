@@ -24,12 +24,12 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import io.debezium.config.CommonConnectorConfig;
 import io.debezium.pipeline.signal.SignalRecord;
 import io.debezium.pipeline.signal.channels.SignalChannelReader;
+import org.spring.boot.extension.autoconfigure.debezium.signals.DebeziumSignalsAutoConfiguration.DebeziumContextHolder;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.PayloadApplicationEvent;
-import org.springframework.util.CollectionUtils;
 
 /**
  *
@@ -58,9 +58,7 @@ public class SpringSignalChannelReader implements SignalChannelReader {
 					public void onApplicationEvent(PayloadApplicationEvent<SignalRecord> event) {
 						try {
 							writeLock.lock();
-							SignalRecord signalRecord = event.getPayload();
-							signals.add(signalRecord);
-							System.out.println("ADD SIGNAL: " + signalRecord);
+							signals.add(event.getPayload());
 						}
 						finally {
 							writeLock.unlock();
@@ -75,10 +73,6 @@ public class SpringSignalChannelReader implements SignalChannelReader {
 			readLock.lock();
 			List<SignalRecord> copy = new ArrayList<>(signals);
 			signals.clear();
-
-			if (!CollectionUtils.isEmpty(copy)) {
-				System.out.println("READ SIGNALS: " + copy.toString());
-			}
 			return copy;
 		}
 		finally {

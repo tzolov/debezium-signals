@@ -16,10 +16,13 @@
 
 package org.spring.boot.extension.autoconfigure.debezium.signals;
 
+import org.springframework.beans.BeansException;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.AnyNestedCondition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.core.Ordered;
@@ -37,6 +40,23 @@ public class DebeziumSignalsAutoConfiguration {
 	@Bean
 	public DebeziumContextHolder debeziumSignalsContext() {
 		return new DebeziumContextHolder();
+	}
+
+	public static class DebeziumContextHolder implements ApplicationContextAware {
+
+		private static ApplicationContext CONTEXT = null;
+
+		@Override
+		public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+			if (CONTEXT == null) {
+				CONTEXT = applicationContext;
+			}
+		}
+
+		static ApplicationContext applicationContext() {
+			return CONTEXT;
+		}
+
 	}
 
 	/**

@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.kafka.connect.runtime.WorkerConfig;
 import org.apache.kafka.connect.storage.MemoryOffsetBackingStore;
+import org.spring.boot.extension.autoconfigure.debezium.signals.DebeziumSignalsAutoConfiguration.DebeziumContextHolder;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.integration.metadata.MetadataStore;

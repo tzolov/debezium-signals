@@ -17,6 +17,7 @@
 package org.spring.boot.extension.autoconfigure.debezium.signals;
 
 import org.junit.jupiter.api.Test;
+import org.spring.boot.extension.autoconfigure.debezium.signals.DebeziumSignalsAutoConfiguration.DebeziumContextHolder;
 
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.FilteredClassLoader;

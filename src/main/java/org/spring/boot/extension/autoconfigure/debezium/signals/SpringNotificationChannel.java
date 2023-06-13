@@ -26,6 +26,7 @@ import io.debezium.pipeline.spi.Offsets;
 import io.debezium.pipeline.spi.Partition;
 import io.debezium.schema.SchemaFactory;
 import org.apache.kafka.connect.source.SourceRecord;
+import org.spring.boot.extension.autoconfigure.debezium.signals.DebeziumSignalsAutoConfiguration.DebeziumContextHolder;
 
 import org.springframework.context.ApplicationContext;
 
@@ -39,7 +40,7 @@ public class SpringNotificationChannel implements NotificationChannel, ConnectCh
 
 	@Override
 	public void init(CommonConnectorConfig config) {
-		context = DebeziumContextHolder.applicationContext();
+		this.context = DebeziumContextHolder.applicationContext();
 	}
 
 	@Override
@@ -49,7 +50,7 @@ public class SpringNotificationChannel implements NotificationChannel, ConnectCh
 
 	@Override
 	public void send(Notification notification) {
-		System.out.println(notification);
+		this.context.publishEvent(notification);
 	}
 
 	@Override
@@ -58,13 +59,11 @@ public class SpringNotificationChannel implements NotificationChannel, ConnectCh
 
 	@Override
 	public void initConnectChannel(SchemaFactory schemaFactory, BlockingConsumer<SourceRecord> consumer) {
-		System.out.println(consumer);
 	}
 
 	@Override
 	public <P extends Partition, O extends OffsetContext> void send(Notification notification, Offsets<P, O> offsets) {
-		System.out.println(offsets.toString());
-		context.publishEvent(notification);
+		this.context.publishEvent(notification);
 	}
 
 }
