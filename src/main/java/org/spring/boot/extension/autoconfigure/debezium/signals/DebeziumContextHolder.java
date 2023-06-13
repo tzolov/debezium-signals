@@ -26,17 +26,17 @@ import org.springframework.context.ApplicationContextAware;
  */
 public class DebeziumContextHolder implements ApplicationContextAware {
 
-	private static final InheritableThreadLocal<ApplicationContext> CONTEXT_HOLDER = new InheritableThreadLocal<>();
+	private static ApplicationContext CONTEXT = null;
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		if (CONTEXT_HOLDER.get() == null) {
-			CONTEXT_HOLDER.set(applicationContext);
+		if (CONTEXT == null) {
+			CONTEXT = applicationContext;
 		}
 	}
 
 	static ApplicationContext applicationContext() {
-		return CONTEXT_HOLDER.get();
+		return CONTEXT;
 	}
 
 }
