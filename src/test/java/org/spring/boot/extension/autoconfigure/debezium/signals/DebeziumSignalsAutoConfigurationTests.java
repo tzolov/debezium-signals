@@ -33,8 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DebeziumSignalsAutoConfigurationTests {
 
 	private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-			.withConfiguration(
-					AutoConfigurations.of(DebeziumSignalsAutoConfiguration.class));
+			.withConfiguration(AutoConfigurations.of(DebeziumSignalsAutoConfiguration.class));
 
 	@Test
 	void neitherNotificationNorSignalProperty() {
